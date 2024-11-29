@@ -30,4 +30,4 @@ environments:
       regions:
         - name: us-east-1
           bucket_name: inbound_astra_files
-          lifecycle_policy_file_url: YOUR_LIFECYCLE_POLICY_FILE_URL
+          lifecycle_policy_file_url: https://github.com/Pradeep-VJ/S3_Infra/blob/main/qa-inbound-lcrs.json
