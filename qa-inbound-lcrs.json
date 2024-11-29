@@ -1,0 +1,34 @@
+{
+    "Rules": [
+        {
+            "ID": "DeleteAllObjects",
+            "Status": "Enabled",
+            "Filter": {
+                "Prefix": ""
+            },
+            "Expiration": {
+                "Days": 7
+            },
+            "NoncurrentVersionExpiration": {
+                "NoncurrentDays": 30
+            },
+            "AbortIncompleteMultipartUpload": {
+                "DaysAfterInitiation": 1
+            }
+        },
+        {
+            "ID": "TransitionToDeepArchive",
+            "Status": "Disabled",
+            "Filter": {
+                "Prefix": ""
+            },
+            "Transitions": [
+                {
+                    "Days": 21,
+                    "StorageClass": "GLACIER_DEEP_ARCHIVE"
+                }
+            ]
+        }
+        
+    ]
+}
