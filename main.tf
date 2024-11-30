@@ -7,7 +7,7 @@ variable "owner" {
 }
 
 variable "bucket_name" {
-  default = "inbound_astra_files"
+  default = "inbound-astra-files"
 }
 
 variable "lifecycle_policy_file_url" {
@@ -18,6 +18,7 @@ resource "aws_s3_bucket" "inbound_s3" {
   bucket = var.bucket_name
   tags = {
     Owner       = var.owner
+    Environment = "QA"
     MedicalData = "false"
     PIIData     = "true"
     CreditData  = "false"
