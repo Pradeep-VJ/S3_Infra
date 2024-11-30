@@ -1,35 +1,19 @@
 provider "aws" {
-  region = "us-east-1" # Change to your desired region
-}
-
-variable "owner" {
-  default = "Pradeep_Reddy_B"
-}
-
-variable "bucket_name" {
-  default = "inbound-astra-files"
-}
-
-variable "lifecycle_policy_file_url" {
-  default = "https://github.com/Pradeep-VJ/S3_Infra/blob/main/qa-inbound-lcrs.json"
+  region = "us-east-1" # Specify your AWS region
 }
 
 resource "aws_s3_bucket" "inbound_s3" {
-  bucket = var.bucket_name
+  bucket = "inbound-astra-files"
   tags = {
-    Owner       = var.owner
-    Environment = "QA"
-    MedicalData = "false"
-    PIIData     = "true"
-    CreditData  = "false"
+    Owner        = "Pradeep_Reddy_B"
+    Environment  = "QA"
+    MedicalData  = "false"
+    PIIData      = "true"
+    CreditData   = "false"
   }
 
+  # Referencing the lifecycle rules JSON file directly
   lifecycle_rule {
-    enabled = true
-    id      = "lifecycle-rule"
-    prefix  = ""
-    expiration {
-      days = 90
-    }
+    lifecycle_policy_file = "https://github.com/Pradeep-VJ/S3_Infra/blob/main/qa-inbound-lcrs.json"
   }
 }
