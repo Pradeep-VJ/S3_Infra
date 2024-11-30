@@ -1,42 +1,34 @@
-pipeline {
-    agent any
-    environment {
-        AWS_ACCESS_KEY_ID = '<your-access-key>'
-        AWS_SECRET_ACCESS_KEY = '<your-secret-key>'
-        AWS_REGION = 'us-east-1'
+provider "aws" {
+  region = "us-east-1" # Change to your desired region
+}
+
+variable "owner" {
+  default = "Pradeep_Reddy_B"
+}
+
+variable "bucket_name" {
+  default = "inbound_astra_files"
+}
+
+variable "lifecycle_policy_file_url" {
+  default = "https://github.com/Pradeep-VJ/S3_Infra/blob/main/qa-inbound-lcrs.json"
+}
+
+resource "aws_s3_bucket" "inbound_s3" {
+  bucket = var.bucket_name
+  tags = {
+    Owner       = var.owner
+    MedicalData = "false"
+    PIIData     = "true"
+    CreditData  = "false"
+  }
+
+  lifecycle_rule {
+    enabled = true
+    id      = "lifecycle-rule"
+    prefix  = ""
+    expiration {
+      days = 90
     }
-    stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning GitHub Repository...'
-                git branch: 'main', credentialsId: 'github-access', url: 'https://github.com/Pradeep-VJ/S3_Infra.git'
-            }
-        }
-        stage('Terraform Init') {
-            steps {
-                echo 'Initializing Terraform...'
-                sh 'terraform init'
-            }
-        }
-        stage('Terraform Plan') {
-            steps {
-                echo 'Planning Terraform Deployment...'
-                sh 'terraform plan -var="owner=Pradeep_Reddy_B" -var="bucket_name=inbound_astra_files"'
-            }
-        }
-        stage('Terraform Apply') {
-            steps {
-                echo 'Applying Terraform Plan...'
-                sh 'terraform apply -var="owner=Pradeep_Reddy_B" -var="bucket_name=inbound_astra_files" -auto-approve'
-            }
-        }
-    }
-    post {
-        success {
-            echo 'Terraform Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check logs for details.'
-        }
-    }
+  }
 }
