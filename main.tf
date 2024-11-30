@@ -1,24 +1,22 @@
 provider "aws" {
-  region = "us-east-1" # Specify your AWS region
+  region = "us-east-1" # Change to your desired region
 }
-
 resource "aws_s3_bucket" "inbound_s3" {
   bucket = "inbound-astra-files"
   tags = {
-    Owner        = "Pradeep_Reddy_B"
-    Environment  = "QA"
-    MedicalData  = "false"
-    PIIData      = "true"
-    CreditData   = "false"
+    Owner       = "Pradeep_Reddy_B"
+    Environment = "QA"
+    MedicalData = "false"
+    PIIData     = "true"
+    CreditData  = "false"
   }
+
   lifecycle_rule {
-    enabled = false
-    id      = "TransitionToDeepArchive"
+    enabled = true
+    id      = "lifecycle-rule"
     prefix  = ""
-    transition {
-      days          = 21
-      storage_class = "GLACIER_DEEP_ARCHIVE"
+    expiration {
+      days = 90
     }
   }
 }
-
