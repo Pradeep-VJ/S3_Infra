@@ -14,6 +14,7 @@ resource "aws_s3_bucket" "inbound_s3" {
 
   # Referencing the lifecycle rules JSON file directly
   lifecycle_rule {
+    enabled = true
     lifecycle_policy_file = "https://github.com/Pradeep-VJ/S3_Infra/blob/main/qa-inbound-lcrs.json"
   }
 }
