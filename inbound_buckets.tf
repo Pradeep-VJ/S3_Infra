@@ -29,9 +29,9 @@ resource "aws_s3_bucket_notification" "inbound_s3_notification" {
   topic {
     topic_arn = "arn:aws:sns:us-east-1:992382544193:experian_file_notifications" # Replace with the actual ARN from your SNS repository
     events    = ["s3:ObjectCreated:*"]
-    filter {
-      prefix = "nightly_batch/"
-      suffix = "metadata.json"
+    #filter {
+      #prefix = "nightly_batch/"
+      #suffix = "metadata.json"
     }
   }
 }
