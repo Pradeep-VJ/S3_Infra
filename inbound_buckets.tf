@@ -32,6 +32,6 @@ resource "aws_s3_bucket_notification" "inbound_s3_notification" {
     #filter {
       #prefix = "nightly_batch/"
       #suffix = "metadata.json"
-    }
+    #}
   }
 }
