@@ -5,6 +5,12 @@ data "external" "check_inbound_bucket" {
   program = ["python3", "check_bucket.py", "inbound-astra-files"]
 }
 
+# Use the 'exists' output as a string
+variable "bucket_exists" {
+  default = data.external.check_inbound_bucket.result.exists
+}
+
+
 resource "aws_s3_bucket" "inbound_s3" {
   bucket = "inbound-astra-files"
   tags = {
