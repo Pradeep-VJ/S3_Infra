@@ -14,6 +14,10 @@ resource "aws_s3_bucket" "inbound_s3" {
     prevent_destroy = true
     ignore_changes  = [acl, tags]
   }
+  # Enable versioning
+  versioning {
+    enabled = true
+  }
   lifecycle_rule {
     enabled = true
     id      = "Expire-in-30days"
