@@ -1,14 +1,7 @@
-###################
-## S3 Buckets
-###################
-data "external" "check_inbound_bucket" {
-  program = ["python3", "check_bucket.py", "inbound-astra-files"]
-}
-
-
+# Inbound S3 bucket configuration
 resource "aws_s3_bucket" "inbound_s3" {
-  count = data.external.check_inbound_bucket.result.exists == "false" ? 1 : 0
-  bucket = "inbound-astra-files"
+  bucket = "inbound-astra-files"  # Name of the bucket
+
   tags = {
     Owner       = "Pradeep_Reddy_B"
     Environment = "QA"
@@ -16,35 +9,17 @@ resource "aws_s3_bucket" "inbound_s3" {
     PIIData     = "true"
     CreditData  = "false"
   }
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [acl, tags]
-  }
-  # Enable versioning
-  versioning {
-    enabled = true
-  }
-  lifecycle_rule {
-    enabled = true
-    id      = "Expire-in-30days"
-    prefix  = ""
-    expiration {
-      days = 30
-    }
-  }
-}
 
-############################
-## S3 Event Notifications
-############################
-resource "aws_s3_bucket_notification" "inbound_s3_notification" {
-  bucket = length(aws_s3_bucket.inbound_s3) > 0 ? aws_s3_bucket.inbound_s3[0].id : data.external.check_inbound_bucket.result.bucket_id
-  topic {
-    topic_arn = "arn:aws:sns:us-east-1:992382544193:experian_file_notifications" # Replace with the actual ARN from your SNS repository
-    events    = ["s3:ObjectCreated:*"]
-    #filter {
-      #prefix = "nightly_batch/"
-      #suffix = "metadata.json"
-    #}
+# Lifecycle configuration for inbound bucket
+resource "aws_s3_bucket_lifecycle_configuration" "inbound_s3_lifecycle" {
+  bucket = aws_s3_bucket.inbound_s3.id
+
+  rule {
+    id     = "Expire-in-30days"
+    status = "Enabled"
+
+    expiration {
+      days = 30  # Expire objects after 30 days
+    }
   }
 }
