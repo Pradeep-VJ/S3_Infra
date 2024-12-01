@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "inbound_s3" {
     CreditData  = "false"
   }
   lifecycle {
-    prevent_destroy = count == 1 ? true : false
+    prevent_destroy = true
     ignore_changes  = [acl, tags]
   }
   # Enable versioning
