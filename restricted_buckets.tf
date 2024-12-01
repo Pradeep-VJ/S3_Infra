@@ -1,6 +1,7 @@
-
+# Restricted S3 bucket configuration
 resource "aws_s3_bucket" "restricted_s3" {
-  bucket = "restricted-astra-files"
+  bucket = "restricted-astra-files"  # Name of the bucket
+
   tags = {
     Owner       = "Pradeep_Reddy_B"
     Environment = "QA"
@@ -9,12 +10,16 @@ resource "aws_s3_bucket" "restricted_s3" {
     CreditData  = "false"
   }
 
-  lifecycle_rule {
-    enabled = true
-    id      = "Expire-in-30days"
-    prefix  = ""
+# Lifecycle configuration for restricted bucket
+resource "aws_s3_bucket_lifecycle_configuration" "restricted_s3_lifecycle" {
+  bucket = aws_s3_bucket.restricted_s3.id
+
+  rule {
+    id     = "Expire-in-30days"
+    status = "Enabled"
+
     expiration {
-      days = 30
+      days = 30  # Expire objects after 30 days
     }
   }
 }
