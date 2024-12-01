@@ -10,7 +10,10 @@ resource "aws_s3_bucket" "inbound_s3" {
     PIIData     = "true"
     CreditData  = "false"
   }
-
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [acl, tags]
+  }
   lifecycle_rule {
     enabled = true
     id      = "Expire-in-30days"
