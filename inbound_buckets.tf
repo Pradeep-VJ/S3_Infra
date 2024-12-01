@@ -38,7 +38,7 @@ resource "aws_s3_bucket" "inbound_s3" {
 ## S3 Event Notifications
 ############################
 resource "aws_s3_bucket_notification" "inbound_s3_notification" {
-  bucket = aws_s3_bucket.inbound_s3[0].id
+  bucket = length(aws_s3_bucket.inbound_s3) > 0 ? aws_s3_bucket.inbound_s3[0].id : data.external.check_inbound_bucket.result.bucket_id
   topic {
     topic_arn = "arn:aws:sns:us-east-1:992382544193:experian_file_notifications" # Replace with the actual ARN from your SNS repository
     events    = ["s3:ObjectCreated:*"]
