@@ -1,6 +1,3 @@
-provider "aws" {
-  region = "us-east-1" # Change to your desired region
-}
 
 resource "aws_s3_bucket" "restricted_s3" {
   bucket = "restricted-astra-files"
