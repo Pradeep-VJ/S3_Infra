@@ -1,4 +1,6 @@
-
+###################
+## S3 Buckets
+###################
 resource "aws_s3_bucket" "inbound_s3" {
   bucket = "inbound-astra-files"
   tags = {
@@ -18,3 +20,17 @@ resource "aws_s3_bucket" "inbound_s3" {
     }
   }
 }
+
+############################
+## S3 Event Notifications
+############################
+resource "aws_s3_bucket_notification" "inbound_s3_notification" {
+  bucket = aws_s3_bucket.inbound_s3.id
+  topic {
+    topic_arn = "arn:aws:sns:us-east-1:592273541233:nightly_batch_file_notifications" # Replace with the actual ARN from your SNS repository
+    events    = ["s3:ObjectCreated:*"]
+    filter {
+      prefix = "nightly_batch/"
+      suffix = "metadata.json"
+    }
+  }
