@@ -1,6 +1,10 @@
 ###################
 ## S3 Buckets
 ###################
+data "external" "check_inbound_bucket" {
+  program = ["python3", "check_bucket.py", "inbound-astra-files"]
+}
+
 resource "aws_s3_bucket" "inbound_s3" {
   bucket = "inbound-astra-files"
   tags = {
