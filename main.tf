@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "inbound_s3" {
   lifecycle_rule = local.lifecycle_rule
 }
 
-resource "aws_s3_bucket" "inbound_s3" {
+resource "aws_s3_bucket" "restricted_s3" {
   bucket = "restricted-astra-files"
   tags = {
     Owner       = "Pradeep_Reddy_B"
