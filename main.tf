@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-east-1" # Change to your desired region
 }
 
-resource "aws_s3_bucket" {
+resource "aws_s3_bucket" "inbound_s3" {
   bucket = "inbound-astra-files"
   tags = {
     Owner       = "Pradeep_Reddy_B"
@@ -15,7 +15,7 @@ resource "aws_s3_bucket" {
   lifecycle_rule = local.lifecycle_rule
 }
 
-resource "aws_s3_bucket" {
+resource "aws_s3_bucket" "inbound_s3" {
   bucket = "restricted-astra-files"
   tags = {
     Owner       = "Pradeep_Reddy_B"
