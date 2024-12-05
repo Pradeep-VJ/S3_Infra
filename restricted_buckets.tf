@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "restricted_s3" {
     PIIData     = "true"
     CreditData  = "false"
   }
-
+}
 # Lifecycle configuration for restricted bucket
 resource "aws_s3_bucket_lifecycle_configuration" "restricted_s3_lifecycle" {
   bucket = aws_s3_bucket.restricted_s3.id
