@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "inbound_s3" {
     PIIData     = "true"
     CreditData  = "false"
   }
-
+}
 # Lifecycle configuration for inbound bucket
 resource "aws_s3_bucket_lifecycle_configuration" "inbound_s3_lifecycle" {
   bucket = aws_s3_bucket.inbound_s3.id
