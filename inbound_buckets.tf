@@ -28,18 +28,8 @@ resource "aws_s3_bucket_notification" "inbound_s3_notification" {
   topic {
     topic_arn = "arn:aws:sns:us-east-1:992382544193:experian_inbound_file_notifications"
     events    = ["s3:ObjectCreated:*"]
-    filter {
-      key {
-        filter_rules {
-          name  = "prefix"
-          value = "daily_batch/"
-        }
-        filter_rules {
-          name  = "suffix"
-          value = "metadata.json"
-        }
-      }
-    }
+    filter_suffix = "metadata.json"
+    filter_prefix = "daily_batch/"
   }
 }
 
