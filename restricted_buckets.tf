@@ -15,11 +15,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "restricted_s3_lifecycle" {
   bucket = aws_s3_bucket.restricted_s3.id
 
   rule {
-    id     = "Expire-in-30days"
+    id     = "Expire-in-15days"
     status = "Enabled"
 
     expiration {
-      days = 30  # Expire objects after 30 days
+      days = 15  # Expire objects after 15 days
     }
   }
 }
