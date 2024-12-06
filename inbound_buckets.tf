@@ -25,8 +25,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "inbound_s3_lifecycle" {
 # Add S3 Event Notification to Trigger SNS
 resource "aws_s3_bucket_notification" "inbound_s3_notification" {
   bucket = aws_s3_bucket.inbound_s3.id
-  name = "Experian_Daily_File_Available"
+  
   topic {
+    id = "Experian_Daily_File_Available"
     topic_arn = "arn:aws:sns:us-east-1:992382544193:experian_inbound_file_notifications"
     events    = ["s3:ObjectCreated:*"]
     filter_suffix = "metadata.json"
