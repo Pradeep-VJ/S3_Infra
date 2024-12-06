@@ -10,6 +10,15 @@ resource "aws_s3_bucket" "inbound_s3" {
   }
 }
 
+# Enable versioning for the bucket
+resource "aws_s3_bucket_versioning" "inbound_s3_versioning" {
+  bucket = aws_s3_bucket.inbound_s3.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 # Lifecycle configuration for inbound bucket
 resource "aws_s3_bucket_lifecycle_configuration" "inbound_s3_lifecycle" {
   bucket = aws_s3_bucket.inbound_s3.id
