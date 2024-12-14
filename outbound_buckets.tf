@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "outbound_s3" {
 }
 # Lifecycle configuration for restricted bucket
 resource "aws_s3_bucket_lifecycle_configuration" "outbound_s3_lifecycle" {
-  bucket = aws_s3_bucket.restricted_s3.id
+  bucket = aws_s3_bucket.outbound_s3.id
 
   rule {
     id     = "Expire-in-15days"
